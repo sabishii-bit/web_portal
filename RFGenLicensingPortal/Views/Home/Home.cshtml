@@ -1,0 +1,190 @@
+@{
+  ViewData["Title"] = "Home";
+}
+
+@model RFGenLicensingPortal.Models.HomePageViewModel
+
+<div class="container mt-5 pt-5 col-12 col-xl-10">
+
+  <div class="row">
+    <div class="col-4 page-header">Dashboard</div>
+
+    <div class="col-8 text-right m-auto">
+      <!-- Button to Open the Modal -->
+      <div class="d-flex justify-content-end">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_home">
+          Update Support Exp Dt
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="BulkChangeSupportExp">
+    <div class="modal" id="modal_home">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Update Date</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <label for="supportExpDate">Date</label>
+            <input type="text" class="form-control" name="supportExpDate" id="supportExpDate" placeholder="ex: 07/24/2021">
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <hr>
+    <table class="table table-bordered table-striped table-hover table-sm text-center" id="testing">
+      <thead class="thead-light">
+        <tr>
+          <th></th>
+          <th>RF User</th>
+          <th>Company Name</th>
+          <th>VAR</th>
+          <th>Server Notes</th>
+          <th>Support Expiration</th>
+          <th>Users Authorized</th>
+          <th>Details</th>
+          <th>Authorize</th>
+        </tr>
+      </thead>
+      <tbody class="text-center">
+        @foreach (var i in Model.oCustomerList)
+        {
+          <tr>
+            <td>
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" name="@i.sRFUser" id="@i.sRFUser" unchecked>
+              </div>
+            </td>
+            <td>@i.sRFUser</td>
+            <td>@i.sCustomer</td>
+            <td>@i.sVAR</td>
+            <td>@i.sServerNotes</td>
+            <td>@i.dtSupportExp</td>
+            <td>@i.iUsersAuth</td>
+
+            <td class="text-center" style="padding:0;margin:0"><a class="btn" style="padding:0;margin:0" href="/Home/ClientDetails?userKey=@i.sRFUser"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Eo_circle_blue_letter-d.svg/512px-Eo_circle_blue_letter-d.svg.png" height="20"></a></td>
+            <td class="text-center" style="padding:0;margin:0"><a class="btn" style="padding:0;margin:0" data-toggle="modal" data-target="#modal_auth"><img src="https://upload.wikimedia.org/wikipedia/commons/5/52/Key.png" height="20"></a></td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </form>
+  <div>
+    <!-- pager -->
+    <ul class="pagination pagination-sm justify-content-center">
+      @if (Model.oPaging.CurrentPage > 1)
+      {
+        @if (Model.oPaging.Search.Equals(""))
+        {
+          <li class="page-item">
+            <a class="page-link" href="~/Home/Home">First</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="~/Home/Home?page=@(Model.oPaging.CurrentPage - 1)">Previous</a>
+          </li>
+        }
+        else
+        {
+          <li class="page-item">
+            <a class="page-link" href="~/Home/Home?q=@(Model.oPaging.Search)">First</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="~/Home/Home?page=@(Model.oPaging.CurrentPage - 1)&q=@(Model.oPaging.Search)">Previous</a>
+          </li>
+        }
+
+      }
+
+
+      @for (var page = Model.oPaging.StartPage; page <= Model.oPaging.EndPage; page++)
+      {
+        @if (Model.oPaging.Search.Equals(""))
+        {
+          <li class="@(page == Model.oPaging.CurrentPage ? "active" : "") page-item">
+            <a class="page-link" href="~/Home/Home?page=@(page)">@(page)</a>
+          </li>
+        }
+        else
+        {
+          <li class="@(page == Model.oPaging.CurrentPage ? "active" : "") page-item">
+            <a class="page-link" href="~/Home/Home?page=@(page)&q=@(Model.oPaging.Search)">@(page)</a>
+          </li>
+        }
+      }
+
+      @if (Model.oPaging.CurrentPage < Model.oPaging.TotalPages)
+      {
+        @if (Model.oPaging.Search.Equals(""))
+        {
+          <li class="page-item">
+            <a class="page-link" href="~/Home/Home?page=@(Model.oPaging.CurrentPage + 1)">Next</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="~/Home/Home?page=@(Model.oPaging.TotalPages)">Last</a>
+          </li>
+        }
+        else
+        {
+          <li class="page-item">
+            <a class="page-link" href="~/Home/Home?page=@(Model.oPaging.CurrentPage + 1)&q=@(Model.oPaging.Search)">Next</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="~/Home/Home?page=@(Model.oPaging.TotalPages)&q=@(Model.oPaging.Search)">Last</a>
+          </li>
+        }
+      }
+    </ul>
+  </div>
+</div>
+<!-- The Modal -->
+<div class="modal" id="modal_auth">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Authorization</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form class="form-group">
+          <label for="companyId">System ID: </label>
+          <input type="text" class="form-control" id="companyId">
+        </form>
+        <form class="form-group">
+          <label for="comment">Comment:</label>
+          <textarea class="form-control" rows="5" id="comment"></textarea>
+        </form>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Download Key</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Download Key and Email</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+@section Scripts{
+  <script src="~/lib/jquery/dist/jquery.min.js"></script>
+  <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.1/jquery.twbsPagination.js"></script>
+}

@@ -1,0 +1,64 @@
+﻿@{
+  ViewData["Title"] = "Logs";
+}
+
+<div class="container mt-5 pt-5 col-12 col-xl-10">
+  <div class="row">
+    <div class="col-6 page-header">Logs</div>
+  </div>
+  <hr>
+  <div class="card">
+    <div class="card-body">
+      <form class="form">
+        <div class="form-row">
+          <div class="form-group col-md-2">
+            <label for="startTime">Start Time</label>
+          </div>
+          <div class="form-group col-md-4">
+            <input type="text" class="form-control" id="startTime" name="iStartDate">
+          </div>
+          <div class="form-group col-md-2">
+            <label for="endTime">End Time</label>
+          </div>
+          <div class="form-group col-md-4">
+            <input type="text" class="form-control" id="endTime" name="iEndDate">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-2">
+            <label for="userField">User</label>
+          </div>
+          <div class="form-group col-md-4">
+            <input type="text" class="form-control" id="userField" name="iUser">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <input class="form-control-check-input" type="checkbox" name="iErrors" value="">
+            <label class="form-check-label" for="ErrorOnly"> Show Errors Only</label>
+          </div>
+        </div>
+        <div class="row p-2">
+          <div class="col-6">
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-outline-primary">Apply Filters</button>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-outline-secondary">Clear Filters</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      @foreach (var i in Model)
+      {
+        <p class="card-text p-0 m-0">Timestamp="@i.moTimeStamp", User="@i.miUserId", StackTrace="example", Error="@i.mbIsError"</p>
+      }
+    </div>
+  </div>
+</div>

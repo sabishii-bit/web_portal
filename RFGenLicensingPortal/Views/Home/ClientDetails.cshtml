@@ -1,0 +1,1095 @@
+
+@{
+  ViewData["Title"] = "ClientDetails";
+}
+
+@model RFGenLicensingPortal.Models.ClientDetailsViewModel;
+
+<!--doing this to avoid nested forms
+  Tons of forms spread out throughout the file here-->
+<form id="form-action" asp-action="ClientDetails" method="post"></form>
+
+<div class="container mt-5 pt-5 col-12 col-xl-10">
+
+  <!--DETAILS-->
+  <div class="row">
+    <div class="col-4 page-header">Details</div>
+    <div class="col-8 text-right m-auto">
+      <div class="d-flex justify-content-end">
+        <!-- Button to Open the Modal -->
+        <button type="button" class="btn btn-primary m-1" data-toggle="modal" data-target="#modal_auth">
+          Authorize
+        </button>
+        <button type="button" class="btn btn-primary m-1" data-toggle="modal" data-target="#modal_authhistory">
+          Auth History
+        </button>
+        <button type="button" class="btn btn-primary m-1" data-toggle="modal" data-target="#editLog">
+          Edit Log
+        </button>
+        <button type="button" class="btn btn-primary m-1" data-toggle="modal" data-target="#emailClient">
+          Email Server Details
+        </button>
+      </div>
+    </div>
+  </div>
+  <hr>
+
+  <!-- TABS-->
+  <ul class="nav nav-tabs" id="nav-tab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" href="#general" data-bs-toggle="tab">General</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#client-details" data-bs-toggle="tab">Client Details</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#record-details" data-bs-toggle="tab">Record Details</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#saas-details" data-bs-toggle="tab">SaaS Details</a>
+    </li>
+  </ul>
+
+  <!--INPUT BOXES-->
+  <div class="tab-content" id="detailTabs">
+    <!--GENERAL-->
+    <div class="tab-pane fade show active" id="general" role="tabpanel">
+      <div class="container bg-white border border-top-0 col-12 pb-3 pt-2">
+
+        <form>
+          <div class="row p-2">
+            <div class="col-2">
+              <label for="companyId">Company ID</label>
+            </div>
+            <div class="col-4">
+              @if (Model != null && Model.oCustomerInfoData != null) {
+                <input type="text" form="form-action" asp-for="@Model.oCustomerInfoData.sRFUser" class="form-control change" id="companyId" value="@Model.oCustomerInfoData.sRFUser" oninput="mark(this.id, this.value, 0)" onfocus="addItem(this.id, this.value, 0)" onfocusout="deleteItem(this.id, this.value, 0)" readonly>
+              } else {
+                <input type="text" class="form-control change" id="companyId" value="User">
+              }
+            </div>
+            <div class="col-2">
+              <label for="companyName">Company Name</label>
+            </div>
+            <div class="col-4">
+              @if (Model != null && Model.oCustomerInfoData != null) {
+                <!--<input type="text" class="form-control" name="companyName" value="Model.oCustomerInfoData.sCustomer">-->
+                <input type="text" form="form-action" asp-for="@Model.oCustomerInfoData.sCustomer" class="form-control change" id="companyName" value="@Model.oCustomerInfoData.sCustomer" oninput="mark(this.id, this.value, 0)" onfocus="addItem(this.id, this.value, 0)" onfocusout="deleteItem(this.id, this.value, 0)">
+              } else {
+                <input type="text" class="form-control" name="companyName" value="">
+              }
+            </div>
+          </div>
+
+          <div class="row p-2">
+            <div class="col-2">
+              <label for="salesForceID">SalesForce ID</label>
+            </div>
+            <div class="col-4">
+              @if (Model != null && Model.oCustomerInfoData != null) {
+                <!--name="salesForceID"-->
+                <input type="text" form="form-action" asp-for="@Model.oCustomerInfoData.sSales" class="form-control change" id="salesForceID"  value="@Model.oCustomerInfoData.sSales" oninput="mark(this.id, this.value, 0)" onfocus="addItem(this.id, this.value, 0)" onfocusout="deleteItem(this.id, this.value, 0)">
+              } else {
+                <input type="text" class="form-control" id="salesForceID" name="salesForceID" value="">
+              }
+            </div>
+            <div class="col-2">
+              <label for="allocationGroup">Allocation Group</label>
+            </div>
+            <div class="col-4">
+              @if (Model != null && Model.oCustomerInfoData != null) {
+                <input type="text" form="form-action" asp-for="@Model.oCustomerInfoData.sAllocGrp" class="form-control change" id="allocationGroup" value="@Model.oCustomerInfoData.sAllocGrp" oninput="mark(this.id, this.value, 0)" onfocus="addItem(this.id, this.value, 0)" onfocusout="deleteItem(this.id, this.value, 0)">
+              } else {
+                <input type="text" class="form-control" name="allocationGroup" value="">
+              }
+            </div>
+          </div>
+
+          <div class="row p-2">
+            <div class="col-2">
+              <label for="varName">VAR Name</label>
+            </div>
+            <div class="col-4">
+              @if (Model != null && Model.oCustomerInfoData != null) {
+                <input type="text" form="form-action" asp-for="@Model.oCustomerInfoData.sVAR" class="form-control change" id="varName" value="@Model.oCustomerInfoData.sVAR" oninput="mark(this.id, this.value, 0)" onfocus="addItem(this.id, this.value, 0)" onfocusout="deleteItem(this.id, this.value, 0)">
+              } else {
+                <input type="text" class="form-control" id="varName" name="varName" value="">
+              }
+            </div>
+            <div class="col-2">
+              <label for="serialNumber">Serial Number</label>
+            </div>
+            <div class="col-4">
+              @if (Model != null && Model.oCustomerInfoData != null) {
+                <input type="text" form="form-action" asp-for="@Model.oCustomerInfoData.sSerialID" class="form-control change" id="serialNumber" value="@Model.oCustomerInfoData.sSerialID" oninput="mark(this.id, this.value, 0)" onfocus="addItem(this.id, this.value, 0)" onfocusout="deleteItem(this.id, this.value, 0)">
+              } else {
+                <input type="text" class="form-control" name="serialNumber" value="">
+              }
+            </div>
+          </div>
+
+          <div class="form-group p-2">
+            <label for="comment">Comment:</label>
+            @if (Model != null && Model.oCustomerInfoData != null) {
+              <textarea form="form-action" asp-for="@Model.oCustomerInfoData.sComments" class="form-control change" rows="5" id="comment" value="@Model.oCustomerInfoData.sComments" oninput="mark(this.id, this.value, 0)" onfocus="addItem(this.id, this.value, 0)" onfocusout="deleteItem(this.id, this.value, 0)"></textarea>
+            } else {
+              <textarea class="form-control" rows="5" id="comment" value=""></textarea>
+            }
+          </div>
+
+          <!--SAVE/DELETE BUTTONS: General-->
+          <div class="row p-3">
+            <div class="col-6">
+              <!-- TODO: These buttons should submit the form instead of calling a JS function, we don't want to have to use the JS.-->
+              <div class="d-grid gap-2">
+                @if (Model.bEdit) {
+                  <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#saveLog" onclick="Save()">Save Changes</button>
+                }
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="d-grid gap-2">
+                @if (Model.bDelete) {
+                  <button type="button" class="btn btn-block btn-outline-danger">Delete Record</button>
+                }
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!--CLIENT DETAILS-->
+    <div class="tab-pane fade" id="client-details" role="tabpanel">
+      <div class="container bg-white border border-top-0 col-12 pb-3 pt-2">
+        <form>
+          <div class="row p-2">
+            <div class="col-2">
+              <label for="thinClients">Thin Clients</label>
+            </div>
+            <div class="col-4">
+              @if (Model != null && Model.oCustomerInfoData != null) {
+                <input type="text" form="form-action" asp-for="@Model.oCustomerInfoData.iUsersAuth" class="form-control change" id="thinClients" value="@Model.oCustomerInfoData.iUsersAuth" oninput="mark(this.id, this.value, 1)" onfocus="addItem(this.id, this.value, 1)" onfocusout="deleteItem(this.id, this.value, 1)">
+              } else {
+                <input type="text" class="form-control" id="thinClients" value="">
+              }
+            </div>
+            <div class="col-2">
+              <label for="applicationCount">Application Count</label>
+            </div>
+            <div class="col-4">
+              @if (Model != null && Model.oCustomerInfoData != null) {
+                <input type="text" form="form-action" asp-for="@Model.oCustomerInfoData.iAppsAuth" class="form-control change" id="applicationCount" value="@Model.oCustomerInfoData.iAppsAuth" oninput="mark(this.id, this.value, 1)" onfocus="addItem(this.id, this.value, 1)" onfocusout="deleteItem(this.id, this.value, 1)">
+              } else {
+                <input type="text" class="form-control" name="applicationCount" value="">
+              }
+            </div>
+          </div>
+
+          <div class="row p-2">
+            <div class="col-2">
+              <label for="batchClients">Batch Clients</label>
+            </div>
+            <div class="col-4">
+              @if (Model != null && Model.oCustomerInfoData != null) {
+                <input type="text" form="form-action" asp-for="@Model.oCustomerInfoData.iMobileAuth" class="form-control change" id="batchClients" value="@Model.oCustomerInfoData.iMobileAuth" oninput="mark(this.id, this.value, 1)" onfocus="addItem(this.id, this.value, 1)" onfocusout="deleteItem(this.id, this.value, 1)">
+              } else {
+                <input type="text" class="form-control" id="batchClients" name="batchClients" value="">
+              }
+            </div>
+            <div class="col-2">
+              <label for="barcodeScanner">Barcode Scanner</label>
+            </div>
+            <div class="col-4">
+              @if (Model != null && Model.oCustomerInfoData != null) {
+                <input type="text" form="form-action" asp-for="@Model.oCustomerInfoData.iBCSCount" class="form-control change" id="barcodeScanner" value="@Model.oCustomerInfoData.iBCSCount" oninput="mark(this.id, this.value, 1)" onfocus="addItem(this.id, this.value, 1)" onfocusout="deleteItem(this.id, this.value, 1)">
+              } else {
+                <input type="text" class="form-control" name="barcodeScanner" value="">
+              }
+            </div>
+          </div>
+
+          <div class="row p-2">
+            <div class="col-2">
+              <label for="vocollectClients">Vocollect Clients</label>
+            </div>
+            <div class="col-4">
+              @if (Model != null && Model.oCustomerInfoData != null) {
+                <input type="text" form="form-action" asp-for="@Model.oCustomerInfoData.iVoiceProd" class="form-control change" id="vocollectClients" value="@Model.oCustomerInfoData.iVoiceProd" oninput="mark(this.id, this.value, 1)" onfocus="addItem(this.id, this.value, 1)" onfocusout="deleteItem(this.id, this.value, 1)">
+              } else {
+                <input type="text" class="form-control" id="vocollectClients" name="vocollectClients" value="">
+              }
+              </div>
+          </div>
+
+          <!--SAVE/DELETE BUTTONS: Client Details-->
+          <div class="row p-3">
+            <div class="col-6">
+              <div class="d-grid gap-2">
+                @if (Model.bEdit) {
+                  <button type="button" class="btn btn-block btn-outline-primary" data-toggle="modal" data-target="#saveLog">Save Changes</button>
+                }
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="d-grid gap-2">
+                @if (Model.bDelete) {
+                  <button type="button" class="btn btn-block btn-outline-danger">Delete Record</button>
+                }
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+    <!--RECORD DETAILS-->
+    <div class="tab-pane fade" id="record-details" role="tabpanel">
+      <div class="container bg-white border border-top-0 col-12 pb-3 pt-2">
+        <form>
+          <div class="row p-2">
+            <div class="col-2">
+              <label for="salesman">Sales Person</label>
+            </div>
+            <div class="col-4">
+              <!--TODO: ask Dmitry for real salesmen?-->
+              <!--TODO: make this update-able once we are able to get salesmen-->
+                <select form="form-action" asp-for="@Model.oCustomerInfoData.sSales" class="form-control change" id="salesman" value="@Model.oCustomerInfoData.sSales" oninput="mark(this.id, this.value, 2)" onfocus="addItem(this.id, this.value, 2)" onfocusout="deleteItem(this.id, this.value, 2)">
+                  <option>Claire Lovell</option>
+                  <option>Rhia Cannon</option>
+                  <option>Glen May</option>
+                  <option>Ayse Fields</option>
+                  <option>Sohaib Hernandez</option>
+                </select>
+              </div>
+            <div class="col-2">
+              <label for="datepicker">Expiration Date</label>
+            </div>
+            <div class="col-4">
+              @if (Model != null && Model.oCustomerInfoData != null) {
+                <!--TODO: Form not able to save this value upon Save Changes 
+                  click. A black box pops up and keeps the editor from exiting.-->
+                <input form="form-action" asp-for="@Model.oCustomerInfoData.dtSupportExp" id="datepicker" class="form-control" value="@Model.oCustomerInfoData.dtSupportExp" oninput="mark(this.id, this.value, 2)" onfocus="addItem(this.id, this.value, 2)" onfocusout="deleteItem(this.id, this.value, 2)">
+              } else {
+                <input id="datepicker" class="form-control" value="">
+              }
+            </div>
+          </div>
+
+          <div class="row p-2">
+            <div class="col-2">
+              <label for="server-renewal-cost">Server Renewal Cost</label>
+            </div>
+            <div class="col-4">
+              @if (Model != null && Model.oCustomerInfoData != null) {
+                <input type="text" form="form-action" asp-for="@Model.oCustomerInfoData.sServerCost" class="form-control change" id="server-renewal-cost" value="@Model.oCustomerInfoData.sServerCost" oninput="mark(this.id, this.value, 2)" onfocus="addItem(this.id, this.value, 2)" onfocusout="deleteItem(this.id, this.value, 2)">
+              } else {
+                <input type="text" class="form-control" id="server-renewal-cost" name="server-renewal-cost" value="">
+              }
+            </div>
+            <div class="col-2">
+              <label for="server-count">Server Count</label>
+            </div>
+            <div class="col-4">
+              @if (Model != null && Model.oCustomerInfoData != null) {
+                <input type="text" form="form-action" asp-for="@Model.oCustomerInfoData.iServerAuth" class="form-control change" id="server-count" value="@Model.oCustomerInfoData.iServerAuth" oninput="mark(this.id, this.value, 2)" onfocus="addItem(this.id, this.value, 2)" onfocusout="deleteItem(this.id, this.value, 2)">
+              } else {
+                <input id="server-count" class="form-control" name="server-count" value="">
+              }
+              </div>
+          </div>
+
+          <div class="row p-2">
+            <div class="col-2">
+              <label for="system-id">System ID</label>
+            </div>
+            <div class="col-4">
+              @if (Model != null && Model.oCustomerInfoData != null) {
+                <input type="text" form="form-action" asp-for="@Model.oCustomerInfoData.sSysID" class="form-control change" id="system-id" value="@Model.oCustomerInfoData.sSysID" oninput="mark(this.id, this.value, 2)" onfocus="addItem(this.id, this.value, 2)" onfocusout="deleteItem(this.id, this.value, 2)">
+              } else {
+                <input type="text" class="form-control" id="system-id" name="system-id" value="">
+              }
+            </div>
+            <div class="col-2">
+              <label for="entry-date">Entry Date</label>
+            </div>
+            <div class="col-4">
+              @if (Model != null && Model.oCustomerInfoData != null) {
+                <input type="text" form="form-action" asp-for="@Model.oCustomerInfoData.dtInstallDt" class="form-control change" id="entry-date" value="@Model.oCustomerInfoData.dtInstallDt" oninput="mark(this.id, this.value, 2)" onfocus="addItem(this.id, this.value, 2)" onfocusout="deleteItem(this.id, this.value, 2)">
+              } else {
+                <input type="text" class="form-control" name="entry-date" id="entry-date" value="">
+              }
+              </div>
+          </div>
+
+          <div class="row p-2">
+            <div class="col-2">
+              <label for="install-count">Installation Count</label>
+            </div>
+            <div class="col-4">
+              @if (Model != null && Model.oCustomerInfoData != null) {
+                <input type="text" form="form-action" asp-for="@Model.oCustomerInfoData.sInstallCnt" class="form-control change" id="install-count" value="@Model.oCustomerInfoData.sInstallCnt" oninput="mark(this.id, this.value, 2)" onfocus="addItem(this.id, this.value, 2)" onfocusout="deleteItem(this.id, this.value, 2)">
+              } else {
+                <input type="text" class="form-control" id="install-count" name="install-count" value="">
+              }
+            </div>
+            <div class="col-2">
+              <label for="release-num">Release Number</label>
+            </div>
+            <div class="col-4">
+              @if (Model != null && Model.oCustomerInfoData != null) {
+                <input type="text" form="form-action" asp-for="@Model.oCustomerInfoData.fReleaseNo" class="form-control change" id="release-num" value="@Model.oCustomerInfoData.fReleaseNo" oninput="mark(this.id, this.value, 2)" onfocus="addItem(this.id, this.value, 2)" onfocusout="deleteItem(this.id, this.value, 2)">
+              } else {
+                <input type="text" class="form-control" id="release-num" name="release-num" value="">
+              }
+            </div>
+          </div>
+
+          <div class="row p-2">
+            <div class="col-2">
+              <label for="trial-days">Trial Days</label>
+            </div>
+            <div class="col-4">
+              <select form="form-action" asp-for="@Model.oCustomerInfoData.iTrialTime" class="form-control" id="trial-days" value="@Model.oCustomerInfoData.iTrialTime" oninput="mark(this.id, this.value, 2)" onfocus="addItem(this.id, this.value, 2)" onfocusout="deleteItem(this.id, this.value, 2)">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="row p-2">
+              ERP System:
+            </div>
+            <div class="row p-2">
+              <div class="col-3">
+                <div class="form-check">
+                  @if (Model != null && Model.oCustomerInfoData != null) {
+                    <input type="checkbox" form="form-action" asp-for="@Model.oCustomerInfoData.bJDEEnabled" class="form-check-input" id="JDEdwards" value="True">
+                  } else {
+                    <input class="form-check-input" type="checkbox" id="JDEdwards" value="">
+                  }
+                  <label class="form-check-label" for="JDEdwards">
+                    JD Edwards
+                  </label>
+                </div>
+                <div class="form-check">
+                  @if (Model != null && Model.oCustomerInfoData != null) {
+                    <input form="form-action" asp-for="@Model.oCustomerInfoData.bMSEnabled" class="form-check-input" type="checkbox" id="MicrosoftDynamic" value="True">
+                  } else {
+                    <input class="form-check-input" type="checkbox" id="MicrosoftDynamic" value="">
+                  }
+                  <label class="form-check-label" for="MicrosoftDynamic">
+                    Microsoft Dynamic
+                  </label>
+                </div>
+                <div class="form-check">
+                  @if (Model != null && Model.oCustomerInfoData != null) {
+                    <input form="form-action" asp-for="@Model.oCustomerInfoData.bSMEnabled" class="form-check-input" type="checkbox" id="ScreenMapping" value="True">
+                  } else {
+                    <input class="form-check-input" type="checkbox" id="ScreenMapping" value="">
+                  }
+                  <label class="form-check-label" for="ScreenMapping">
+                    Screen Mapping
+                  </label>
+                </div>
+                <div class="form-check">
+                  @if (Model != null && Model.oCustomerInfoData != null) {
+                    <input form="form-action" asp-for="@Model.oCustomerInfoData.bCreditHold" class="form-check-input" type="checkbox" id="CreditHold" value="True">
+                  } else {
+                    <input class="form-check-input" type="checkbox" id="CreditHold" value="">
+                  }
+                  <label class="form-check-label" for="CreditHold">
+                    Credit Hold
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-3">
+                <div class="form-check">
+                  @if (Model != null && Model.oCustomerInfoData != null) {
+                    <input form="form-action" asp-for="@Model.oCustomerInfoData.bSAPEnabled" class="form-check-input" type="checkbox" id="SAP" value="True">
+                  } else {
+                    <input class="form-check-input" type="checkbox" id="SAP" value="">
+                  }
+                  <label class="form-check-label" for="SAP">
+                    SAP
+                  </label>
+                </div>
+                <div class="form-check">
+                  @if (Model != null && Model.oCustomerInfoData != null) {
+                    <input form="form-action" asp-for="@Model.oCustomerInfoData.bOracleEnabled" class="form-check-input" type="checkbox" id="Oracle" value="True">
+                  } else {
+                    <input class="form-check-input" type="checkbox" id="Oracle" value="">
+                  }
+                  <label class="form-check-label" for="Oracle">
+                    Oracle
+                  </label>
+                </div>
+                <div class="form-check">
+                  @if (Model != null && Model.oCustomerInfoData != null) {
+                    <input form="form-action" asp-for="@Model.oCustomerInfoData.bCostpointEnabled" class="form-check-input" type="checkbox" id="Costpoint" value="True">
+                  } else {
+                    <input class="form-check-input" type="checkbox" id="Costpoint" value="">
+                  }
+                  <label class="form-check-label" for="Costpoint">
+                    Costpoint
+                  </label>
+                </div>
+                <div class="form-check">
+                  @if (Model != null && Model.oCustomerInfoData != null) {
+                    <input form="form-action" asp-for="@Model.oCustomerInfoData.bBackup" class="form-check-input" type="checkbox" id="Backup" value="True">
+                  } else {
+                    <input class="form-check-input" type="checkbox" id="Backup" value="">
+                  }
+                  <label class="form-check-label" for="Backup">
+                    Backup
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-3">
+                <div class="form-check">
+                  @if (Model != null && Model.oCustomerInfoData != null) {
+                    <input form="form-action" asp-for="@Model.oCustomerInfoData.bTest" class="form-check-input" type="checkbox" id="Test" value="True">
+                  } else {
+                    <input class="form-check-input" type="checkbox" id="Test" value="">
+                  }
+                  <label class="form-check-label" for="Test">
+                    Test
+                  </label>
+                </div>
+                <div class="form-check">
+                  @if (Model != null && Model.oCustomerInfoData != null) {
+                    <input form="form-action" asp-for="@Model.oCustomerInfoData.bLapse" class="form-check-input" type="checkbox" id="Lapse" value="True">
+                  } else {
+                    <input class="form-check-input" type="checkbox" id="Lapse" value="">
+                  }
+                  <label class="form-check-label" for="Lapse">
+                    Lapse
+                  </label>
+                </div>
+                <div class="form-check">
+                  @if (Model != null && Model.oCustomerInfoData != null) {
+                    <input form="form-action" asp-for="@Model.oCustomerInfoData.bTrialEnabled" class="form-check-input" type="checkbox" id="Trial" value="True">
+                  } else {
+                    <input class="form-check-input" type="checkbox" id="Trial" value="">
+                  }
+                  <label class="form-check-label" for="Trial">
+                    Trial
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-3">
+                <div class="form-check">
+                  @if (Model != null && Model.oCustomerInfoData != null) {
+                    <input form="form-action" asp-for="@Model.oCustomerInfoData.bSAPB1Enabled" class="form-check-input" type="checkbox" id="SAPB1" value="True">
+                  } else {
+                    <input class="form-check-input" type="checkbox" id="SAPB1" value="">
+                  }
+                  <label class="form-check-label" for="SAPB1">
+                    SAPB1
+                  </label>
+                </div>
+                <div class="form-check">
+                  @if (Model != null && Model.oCustomerInfoData != null) {
+                    <input form="form-action" asp-for="@Model.oCustomerInfoData.bVocollect" class="form-check-input" type="checkbox" id="Vocollect" value="True">
+                  } else {
+                    <input class="form-check-input" type="checkbox" id="Vocollect" value="">
+                  }
+                  <label class="form-check-label" for="Vocollect">
+                    Vocollect
+                  </label>
+                </div>
+                <div class="form-check">
+                  @if (Model != null && Model.oCustomerInfoData != null) {
+                    <input form="form-action" asp-for="@Model.oCustomerInfoData.bHCPEnabled" class="form-check-input" type="checkbox" id="HCP" value="True">
+                  } else {
+                    <input class="form-check-input" type="checkbox" id="HCP" value=""> 
+                  }
+                    <label class="form-check-label" for="HCP">
+                      HCP
+                    </label>
+                  </div>
+                <div class="form-check">
+                  @if (Model != null && Model.oCustomerInfoData != null) {
+                    <input form="form-action" asp-for="@Model.oCustomerInfoData.bSCMEnabled" class="form-check-input" type="checkbox" id="SCM" value="True">
+                  } else {
+                <input class="form-check-input" type="checkbox" id="SCM" value="">
+                  }
+                  <label class="form-check-label" for="SCM">
+                    SCM
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group p-2">
+            <label for="server-notes">Server Notes:</label>
+            @if (Model != null && Model.oCustomerInfoData != null) {
+              <textarea form="form-action" asp-for="@Model.oCustomerInfoData.sServerNotes" class="form-control" rows="5" id="server-notes" value="@Model.oCustomerInfoData.sServerNotes" oninput="mark(this.id, this.value, 2)" onfocus="addItem(this.id, this.value, 2)" onfocusout="deleteItem(this.id, this.value, 2)"></textarea>
+            } else {
+              <textarea class="form-control" rows="5" id="server-notes" value=""></textarea>
+            }
+          </div>
+
+          <!--SAVE/DELETE BUTTONS-->
+          <div class="row p-3">
+            <div class="col-6">
+              <div class="d-grid gap-2">
+                @if (Model.bEdit) {
+                  <button type="button" class="btn btn-block btn-outline-primary" data-toggle="modal" data-target="#saveLog">Save Changes</button>
+                }
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="d-grid gap-2">
+                @if (Model.bDelete) {
+                  <button type="button" class="btn btn-block btn-outline-danger">Delete Record</button>
+                }
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+    <!--SAAS DETAILS-->
+    <div class="tab-pane fade" id="saas-details" role="tabpanel">
+      <div class="container bg-white border border-top-0 col-12 pb-3 pt-2">
+        <div class="row p-2">
+          <div class="col-6">
+            <div class="form-check">
+              @if (Model != null && Model.oCustomerInfoData != null) {
+                <input form="form-action" asp-for="@Model.oCustomerInfoData.bServiceEnabled" class="form-check-input" type="checkbox" id="saasToggle" onclick="toggleSaaSInputs()" value="True">
+              } else { 
+                <input class="form-check-input" type="checkbox" id="saasToggle" value="">
+              }
+              <label class="form-check-label" for="saasToggle">
+                Record is SaaS
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="row p-2">
+          <div class="col-2">
+            <label for="duration">Duration</label>
+          </div>
+          <div class="col-4">
+            <input type="text" class="saas-form form-control" id="duration" name="duration" value="" readonly oninput="mark(this.id, this.value, 3)" onfocus="addItem(this.id, this.value, 3)" onfocusout="deleteItem(this.id, this.value, 3)">
+          </div>
+          <div class="col-2">
+            <label for="users-allowed">Users Allowed</label>
+          </div>
+          <div class="col-4">
+            @if (Model != null && Model.oCustomerInfoData != null) {
+              <input type="text" form="form-action" asp-for="@Model.oCustomerInfoData.iUsersAllowed" class="form-control change" id="users-allowed" value="@Model.oCustomerInfoData.iUsersAllowed" readonly oninput="mark(this.id, this.value, 3)" onfocus="addItem(this.id, this.value, 3)" onfocusout="deleteItem(this.id, this.value, 3)">
+            } else {
+              <input type="text" class="saas-form form-control" id="users-allowed" name="users-allowed" value="" readonly>
+            }
+          </div>
+        </div>
+
+        <div class="row p-2">
+          <div class="col-2">
+            <label for="server-expiry">Server Expiry</label>
+          </div>
+          <div class="col-4">
+            @if (Model != null && Model.oCustomerInfoData != null) {
+              <input type="text" form="form-action" asp-for="@Model.oCustomerInfoData.dtSvcExp" class="form-control change" id="server-expiry" value="@Model.oCustomerInfoData.dtSvcExp" readonly oninput="mark(this.id, this.value, 3)" onfocus="addItem(this.id, this.value, 3)" onfocusout="deleteItem(this.id, this.value, 3)">
+            } else {
+              <input type="text" class="saas-form form-control" id="server-expiry" name="server-expiry" value="" readonly>
+            }
+          </div>
+          <div class="col-2">
+            <label for="contract-start">Contract Start</label>
+          </div>
+          <div class="col-4">
+            @if (Model != null && Model.oCustomerInfoData != null) {
+              <input type="text" form="form-action" asp-for="@Model.oCustomerInfoData.dtContractSt" class="form-control change" id="contract-start" value="@Model.oCustomerInfoData.dtContractSt" readonly oninput="mark(this.id, this.value, 3)" onfocus="addItem(this.id, this.value, 3)" onfocusout="deleteItem(this.id, this.value, 3)">
+            } else {
+              <input type="text" class="saas-form form-control" id="contract-start" name="contract-start" value="" readonly>
+            }
+          </div>
+        </div>
+
+        <div class="row p-2">
+          <div class="col-2">
+            <label for="contract-end">Contract End</label>
+          </div>
+          <div class="col-4">
+            @if (Model != null && Model.oCustomerInfoData != null) {
+              <input type="text" form="form-action" asp-for="@Model.oCustomerInfoData.dtContractEd" class="form-control change" id="contract-end" value="@Model.oCustomerInfoData.dtContractEd" readonly oninput="mark(this.id, this.value, 3)" onfocus="addItem(this.id, this.value, 3)" onfocusout="deleteItem(this.id, this.value, 3)">
+            } else {
+              <input type="text" class="saas-form form-control" id="contract-end" name="contract-end" value="" readonly>
+            }
+          </div>
+          <div class="col-2">
+            <label for="min-user-count">Minimum User Count</label>
+          </div>
+          <div class="col-4">
+            @if (Model != null && Model.oCustomerInfoData != null) {
+              <input type="text" form="form-action" asp-for="@Model.oCustomerInfoData.iMinUsers" class="form-control change" id="min-user-count" value="@Model.oCustomerInfoData.iMinUsers" readonly oninput="mark(this.id, this.value, 3)" onfocus="addItem(this.id, this.value, 3)" onfocusout="deleteItem(this.id, this.value, 3)">
+            } else {
+              <input type="text" class="saas-form form-control" id="min-user-count" name="min-user-count" value="" readonly>
+            }
+          </div>
+        </div>
+
+        <div class="row p-2">
+          <div class="col-2">
+            <label for="heartbeat-date">HeartBeat Date</label>
+          </div>
+          <div class="col-4">
+            @if (Model != null && Model.oCustomerInfoData != null) {
+              <input type="text" form="form-action" asp-for="@Model.oCustomerInfoData.dtHeartbeat" class="form-control change" id="heartbeat-date" value="@Model.oCustomerInfoData.dtHeartbeat" readonly oninput="mark(this.id, this.value, 3)" onfocus="addItem(this.id, this.value, 3)" onfocusout="deleteItem(this.id, this.value, 3)">
+            } else {
+              <input type="text" class="saas-form form-control" id="heartbeat-date" name="heartbeat-date" value="" readonly>
+            }
+          </div>
+        </div>
+
+        <!--SAVE/DELETE BUTTONS-->
+        <div class="row p-3">
+          <div class="col-6">
+            <div class="d-grid gap-2">
+              @if (Model.bEdit) {
+                <button type="button" class="btn btn-block btn-outline-primary" data-toggle="modal" data-target="#saveLog">Save Changes</button>
+              }
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="d-grid gap-2">
+              @if (Model.bDelete) {
+                <button type="button" class="btn btn-block btn-outline-danger">Delete Record</button>
+              }
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+    <!-- The Auth Modal -->
+    <div class="modal" id="modal_auth">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Authorization</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <form class="form-group">
+              <label for="systemId">System ID: </label>
+              <input type="text" class="form-control change" id="systemId">
+            </form>
+            <form class="form-group">
+              <label for="comment">Comment:</label>
+              <textarea class="form-control" rows="5" id="comment"></textarea>
+            </form>
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary">Download Key</button>
+            <button type="button" class="btn btn-primary">Download Key and Email</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- The Auth History Modal -->
+    <div class="modal" id="modal_authhistory">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Authorization History</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+
+            <table class="table table-bordered table-striped table-sm text-center">
+              <thead class="thead-light">
+                <tr>
+                  <th>Date</th>
+                  <th>User</th>
+                  <th>System ID</th>
+                  <th>Comments</th>
+                  <th>Key</th>
+                </tr>
+              </thead>
+              <tbody>
+                  @{
+                    if (Model != null && Model.oAuthList != null) {
+                      /* Bottm Gear Table Building M8s */
+                      for (int i = 0; i < Model.oAuthList.Count; i++) {
+                        <tr>
+                          <td>@Model.oAuthList[i].dInstall_Date</td>
+                          <td>@Model.oAuthList[i].sRFUser</td>
+                          <td>@Model.oAuthList[i].sOldID</td>
+                          <td>@Model.oAuthList[i].sComments</td>
+                          <td>
+                            <button class="btn"><i class="fa fa-download"></i></button>
+                          </td>
+                        </tr>
+                      }
+                    }
+                  }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- The Edit Log Modal -->
+    <div class="modal" id="editLog">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Edit Log</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+
+            <table class="table table-bordered table-striped table-sm text-center">
+              <thead class="thead-light">
+                <tr>
+                  <th>Date</th>
+                  <th>UserID</th>
+                  <th>Event</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                @if(Model != null && Model.oHDEventsList != null) {
+                  @foreach(HDEventsData oHDEvent in Model.oHDEventsList) {
+                    <tr>
+                      <td>@oHDEvent.oTimeStamp</td>
+                      <td>@oHDEvent.sUserID</td>
+                      <td>@oHDEvent.sEvent</td>
+                      <td>
+                    
+                      </td>
+                    </tr>
+                  }
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- The Email Details Modal -->
+    <div class="modal" id="emailClient">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Email Server Details</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <form class="form-group">
+              <label for="recipientEmail">Recipient: </label>
+              <input type="text" class="form-control" id="recipientEmail">
+            </form>
+            <form class="form-group">
+              <label for="emailSubject">Subject: </label>
+              <input type="text" class="form-control" id="emailSubject">
+            </form>
+            <form class="form-group">
+              <label for="emailMessage">Message:</label>
+              <textarea class="form-control" rows="5" id="emailMessage"></textarea>
+            </form>
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Send</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="saveLog">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Edit Log</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+
+            <table class="table table-bordered table-striped table-sm text-center">
+              <thead class="thead-light">
+                <tr>
+                  <th>Previous</th>
+                  <th>Edit</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>companyId:10</td>
+                  <td>companyId:100</td>
+                  <td><a href="#" class="link-primary">Undo</a></td>
+                </tr>
+                <tr>
+                  <td>Oracle:true</td>
+                  <td>Oracle:false</td>
+                  <td><a href="#" class="link-primary">Undo</a></td>
+                </tr>
+                <tr>
+                  <td>Trial Days:5</td>
+                  <td>Trail Days:10</td>
+                  <td><a href="#" class="link-primary">Undo</a></td>
+                </tr>
+                <tr>
+                  <td>Server Cost:1000</td>
+                  <td>Server Cost:9999999</td>
+                  <td><a href="#" class="link-primary">Undo</a></td>
+                </tr>
+              </tbody>
+            </table>
+            <form class="form-group">
+              <label for="emailMessage">Message:</label>
+              <textarea class="form-control" rows="5" id="emailMessage"></textarea>
+            </form>
+            <div class="row p-3">
+              <div class="col-6">
+                <input type="submit" form="form-action" class="btn btn-block btn-outline-primary" data-toggle="modal" data-target="#saveLog">Save Changes</input>
+              </div>
+              <div class="col-6">
+                <button type="button" class="btn btn-block btn-outline-danger">Reset changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+@section Scripts{ 
+@if (!Model.bEdit)
+  {
+   <script>
+     var inputs = document.getElementById('detailTabs').getElementsByTagName("input");
+     for (var i = 0; i < inputs.length; i++) {
+       inputs[i].disabled = true;
+     }
+     var selects = document.getElementById('detailTabs').getElementsByTagName("select");
+     for (var i = 0; i < selects.length; i++) {
+       selects[i].disabled = true;
+     }
+     var textareas = document.getElementById('detailTabs').getElementsByTagName("textarea");
+     for (var i = 0; i < textareas.length; i++) {
+       textareas[i].disabled = true;
+     }
+
+     //disable enter key to submit form
+     document.addEventListener('keypress', function (e) {
+       if (e.keyCode === 13 || e.which === 13) {
+         e.preventDefault();
+         return false;
+       }
+     });
+   </script>
+  }
+<script>
+  // Maps for the different tab field values and their DOM input field id's as keys
+  const generalMap = new Map();
+  const clientMap = new Map();
+  const recordMap = new Map();
+  const saasMap = new Map();
+
+  // If a DOM has been put into focus, its id and value will be stored in its respective map using tabLoc
+  // Tab Locations corresponding values:
+  // 0 = general, 1 = client, 2 = record, 3 = saas
+  function addItem(key, inVal, tabLoc) {
+    switch (tabLoc) {
+      case 0:
+        if (!generalMap.has(key))
+          generalMap.set(key, inVal);
+        break;
+      case 1:
+        if (!clientMap.has(key))
+          clientMap.set(key, inVal);
+        break;
+      case 2:
+        if (!recordMap.has(key))
+          recordMap.set(key, inVal);
+        break;
+      case 3:
+        if (!saasMap.has(key))
+          saasMap.set(key, inVal);
+        break;
+      default:
+        return;
+    }
+    return;
+  }
+
+  // If a DOM leaves focus, it needs to be removed from the map so its presence doesn't interfere with logic for the tab label
+  function deleteItem(key, inVal, tabLoc) {
+    switch (tabLoc) {
+      case 0:
+        if (generalMap.has(key) && inVal === generalMap.get(key))
+          generalMap.delete(key);
+        break;
+      case 1:
+        if (clientMap.has(key) && inVal === clientMap.get(key))
+          clientMap.delete(key);
+        break;
+      case 2:
+        if (recordMap.has(key) && inVal === recordMap.get(key))
+          recordMap.delete(key);
+        break;
+      case 3:
+        if (saasMap.has(key) && inVal === saasMap.get(key))
+          saasMap.delete(key);
+        break;
+      default:
+        return;
+    }
+    return;
+  }
+
+  // Function to mark labels with '*' character, indicating the user has edited them and they are no longer equivalent to their original value
+  function mark(inId, inVal, tabLoc) {
+    var focusItem = document.querySelector(`label[for=${inId}]`).innerHTML;                                         // Item label currently in focus
+
+    switch (tabLoc) {
+      case 0:
+        if (inVal !== generalMap.get(inId)) {                                                                       // If the input value has been changed
+          if (focusItem.charAt(focusItem.length - 1) !== '*') {                                                     // And the input value's label hasn't already been marked
+            document.querySelector(`label[for=${inId}]`).innerHTML += "*";                                          // Mark the input value's label
+            addItem(inId, inVal, tabLoc);                                                                           // Call addItem to ensure its within the map
+            if (generalMap.size !== 0) {                                                                            // If the input value's label has been marked and the tab isn't marked
+              document.querySelector(`a[href='#general']`).innerHTML = 'General*';                                  // Mark the tab
+            }
+          }
+        } else if (inVal === generalMap.get(inId) && focusItem.charAt(focusItem.length - 1) === '*') {              // If the input value has been reverted back to its original value
+          let buff = document.querySelector(`label[for=${inId}]`).innerHTML;                                        // Buffer to store label id
+          buff = buff.substring(0, buff.length - 1);                                                                // Trim the '*' character
+          document.querySelector(`label[for=${inId}]`).innerHTML = buff;                                            // Store the result back into the label
+          generalMap.delete(inId);                                                                                  // Delete the item from the map (used for logic to mark/unmark tabs)
+          if (generalMap.size === 0) {                                                                              // If the input value's label has been unmarked and the tab is marked
+            document.querySelector(`a[href='#general']`).innerHTML = 'General';                                     // Unmark the tab
+            addItem(inId, inVal, tabLoc);                                                                           // Call addItem to ensure its within the map, since it's still in focus
+          }
+        }
+        if (generalMap.size === 0 && inVal === generalMap.get(inId)) {                                              // If the map is empty of fields and the input value is its original value
+          document.querySelector(`a[href='#general']`).innerHTML = 'General';                                       // Set the tab label back to normal
+        }
+        break;
+      case 1:
+        if (inVal !== clientMap.get(inId)) {                                                                       // If the input value has been changed
+          if (focusItem.charAt(focusItem.length - 1) !== '*') {                                                     // And the input value's label hasn't already been marked
+            document.querySelector(`label[for=${inId}]`).innerHTML += "*";                                          // Mark the input value's label
+            addItem(inId, inVal, tabLoc);                                                                           // Call addItem to ensure its within the map
+            if (clientMap.size !== 0) {                                                                            // If the input value's label has been marked and the tab isn't marked
+              document.querySelector(`a[href='#client-details']`).innerHTML = 'Client Details*';                   // Mark the tab
+            }
+          }
+        } else if (inVal === clientMap.get(inId) && focusItem.charAt(focusItem.length - 1) === '*') {              // If the input value has been reverted back to its original value
+          let buff = document.querySelector(`label[for=${inId}]`).innerHTML;                                        // Buffer to store label id
+          buff = buff.substring(0, buff.length - 1);                                                                // Trim the '*' character
+          document.querySelector(`label[for=${inId}]`).innerHTML = buff;                                            // Store the result back into the label
+          clientMap.delete(inId);                                                                                  // Delete the item from the map (used for logic to mark/unmark tabs)
+          if (clientMap.size === 0) {                                                                              // If the input value's label has been unmarked and the tab is marked
+            document.querySelector(`a[href='#client-details']`).innerHTML = 'Client Details';                                     // Unmark the tab
+            addItem(inId, inVal, tabLoc);                                                                           // Call addItem to ensure its within the map, since it's still in focus
+          }
+        }
+        if (clientMap.size === 0 && inVal === clientMap.get(inId)) {                                              // If the map is empty of fields and the input value is its original value
+          document.querySelector(`a[href='#client-details']`).innerHTML = 'Client Details';                                       // Set the tab label back to normal
+        }
+        break;
+      case 2:
+        if (inVal !== recordMap.get(inId)) {                                                                       // If the input value has been changed
+          if (focusItem.charAt(focusItem.length - 1) !== '*') {                                                     // And the input value's label hasn't already been marked
+            document.querySelector(`label[for=${inId}]`).innerHTML += "*";                                          // Mark the input value's label
+            addItem(inId, inVal, tabLoc);                                                                           // Call addItem to ensure its within the map
+            if (recordMap.size !== 0) {                                                                            // If the input value's label has been marked and the tab isn't marked
+              document.querySelector(`a[href='#record-details']`).innerHTML = 'Record Details*';                                  // Mark the tab
+            }
+          }
+        } else if (inVal === recordMap.get(inId) && focusItem.charAt(focusItem.length - 1) === '*') {              // If the input value has been reverted back to its original value
+          let buff = document.querySelector(`label[for=${inId}]`).innerHTML;                                        // Buffer to store label id
+          buff = buff.substring(0, buff.length - 1);                                                                // Trim the '*' character
+          document.querySelector(`label[for=${inId}]`).innerHTML = buff;                                            // Store the result back into the label
+          recordMap.delete(inId);                                                                                  // Delete the item from the map (used for logic to mark/unmark tabs)
+          if (recordMap.size === 0) {                                                                              // If the input value's label has been unmarked and the tab is marked
+            document.querySelector(`a[href='#record-details']`).innerHTML = 'Record Details';                                     // Unmark the tab
+            addItem(inId, inVal, tabLoc);                                                                           // Call addItem to ensure its within the map, since it's still in focus
+          }
+        }
+        if (recordMap.size === 0 && inVal === recordMap.get(inId)) {                                              // If the map is empty of fields and the input value is its original value
+          document.querySelector(`a[href='#record-details']`).innerHTML = 'Record Details';                                       // Set the tab label back to normal
+        }
+        break;
+      case 3:
+        if (inVal !== saasMap.get(inId)) {                                                                       // If the input value has been changed
+          if (focusItem.charAt(focusItem.length - 1) !== '*') {                                                     // And the input value's label hasn't already been marked
+            document.querySelector(`label[for=${inId}]`).innerHTML += "*";                                          // Mark the input value's label
+            addItem(inId, inVal, tabLoc);                                                                           // Call addItem to ensure its within the map
+            if (saasMap.size !== 0) {                                                                            // If the input value's label has been marked and the tab isn't marked
+              document.querySelector(`a[href='#saas-details']`).innerHTML = 'SaaS Details*';                                  // Mark the tab
+            }
+          }
+        } else if (inVal === saasMap.get(inId) && focusItem.charAt(focusItem.length - 1) === '*') {              // If the input value has been reverted back to its original value
+          let buff = document.querySelector(`label[for=${inId}]`).innerHTML;                                        // Buffer to store label id
+          buff = buff.substring(0, buff.length - 1);                                                                // Trim the '*' character
+          document.querySelector(`label[for=${inId}]`).innerHTML = buff;                                            // Store the result back into the label
+          saasMap.delete(inId);                                                                                  // Delete the item from the map (used for logic to mark/unmark tabs)
+          if (generalMap.size === 0) {                                                                              // If the input value's label has been unmarked and the tab is marked
+            document.querySelector(`a[href='#saas-details']`).innerHTML = 'SaaS Details';                                     // Unmark the tab
+            addItem(inId, inVal, tabLoc);                                                                           // Call addItem to ensure its within the map, since it's still in focus
+          }
+        }
+        if (saasMap.size === 0 && inVal === saasMap.get(inId)) {                                              // If the map is empty of fields and the input value is its original value
+          document.querySelector(`a[href='#saas-details']`).innerHTML = 'SaaS Details';                                       // Set the tab label back to normal
+        }
+        break;
+      default:
+        return;
+        break;
+    }
+    return;
+  }
+</script>
+<script src="~/js/details.js" type="text/javascript"></script>
+}

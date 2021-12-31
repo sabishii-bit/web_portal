@@ -1,0 +1,16 @@
+﻿@{
+  ViewData["Title"] = "Profile";
+}
+
+<form asp-action="Profile">
+  <div class="container mt-5 pt-5 col-12 col-xl-10">
+    <div class="row">
+      <div class="col-6 page-header">Profile</div>
+    </div>
+    <hr>
+    <label for="results">Search results per page: </label>
+    <input type="number" name="sResultsAmount" value="" style="width:3em">
+    @*<input type="number" name="sResultsAmount" value="@{Context.Request.Cookies.TryGetValue("userResultsAmount", out string value);}" style="width:3em">*@
+    <input type="submit" value="Save Changes" class="btn btn-outline-primary">
+  </div>
+</form>

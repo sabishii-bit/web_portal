@@ -1,0 +1,428 @@
+﻿
+@model RFGenLicensingPortal.Models.CustomerInfoData
+
+@if (TempData["msg_Vide"] != null)
+{
+  <script>
+        alert('@Html.Raw(TempData["msg"])')
+  </script>
+}
+
+@Html.Raw(TempData["msg"])
+<div class="container mt-5 pt-5 col-12 col-xl-10">
+
+  <!--DETAILS-->
+  <div class="row">
+    <div class="col-4 page-header">Create a record</div>
+  </div>
+  <hr>
+
+  <!-- TABS-->
+  <ul class="nav nav-tabs" id="nav-tab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" href="#general" data-bs-toggle="tab">General</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#client-details" data-bs-toggle="tab">Client Details</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#record-details" data-bs-toggle="tab">Record Details</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#saas-details" data-bs-toggle="tab">SaaS Details</a>
+    </li>
+  </ul>
+
+  <!--INPUT BOXES-->
+  <form asp-action="NewRecord">
+    <div class="border border-top-0 col-12 pb-3 pt-2">
+      <div class="tab-content">
+        <!--GENERAL-->
+        <div class="tab-pane fade show active" id="general" role="tabpanel">
+          <div class="container bg-white">
+            <div class="row p-2">
+              <div class="col-2">
+                <label for="companyId">Company ID</label>
+              </div>
+              <div class="col-4">
+                <input type="text" class="form-control change" id="companyId" name="sRFUser" value="@(Model == null ? "" : Model.sRFUser)" required>
+              </div>
+              <div class="col-2">
+                <label for="companyName">Company Name</label>
+              </div>
+              <div class="col-4">
+                <input type="text" class="form-control" name="sCustomer" value="@(Model == null ? "" : Model.sCustomer)" required>
+              </div>
+            </div>
+
+            <div class="row p-2">
+              <div class="col-2">
+                <label for="salesForceID">SalesForce ID</label>
+              </div>
+              <div class="col-4">
+                <input type="text" class="form-control" id="salesForceID" name="sAcctID" value="@(Model == null ? "" : Model.sAcctID)" required>
+              </div>
+              <div class="col-2">
+                <label for="allocationGroup">Allocation Group</label>
+              </div>
+              <div class="col-4">
+                <input type="text" class="form-control" name="sAllocGrp" value="@(Model == null ? "" : Model.sAllocGrp)" required>
+              </div>
+            </div>
+
+            <div class="row p-2">
+              <div class="col-2">
+                <label for="varName">VAR Name</label>
+              </div>
+              <div class="col-4">
+                <input type="text" class="form-control" id="varName" name="sVAR" value="@(Model == null ? "" : Model.sVAR)" required>
+              </div>
+              <div class="col-2">
+                <label for="serialNumber">Serial Number</label>
+              </div>
+              <div class="col-4">
+                <input type="text" class="form-control" name="sSerialID" value="@(Model == null ? "" : Model.sSerialID)" required>
+              </div>
+            </div>
+
+            <div class="form-group p-2">
+              <label for="comment">Comment:</label>
+              <textarea class="form-control" rows="5" id="comment" name="sComments" value="@(Model == null ? "" : Model.sSerialID)" required></textarea>
+            </div>
+          </div>
+        </div>
+        <!--CLIENT DETAILS-->
+        <!--TO DO: ask Dmitry for values to fill fields-->
+        <div class="tab-pane fade" id="client-details" role="tabpanel">
+          <div class="container bg-white">
+            <div class="row p-2">
+              <div class="col-2">
+                <label for="thinClients">Thin Clients</label>
+              </div>
+              <div class="col-4">
+                <input type="text" class="form-control" id="thinClients" name="iUsersAuth" value="@(Model == null ? "" : Model.iUsersAuth)" required>
+              </div>
+              <div class="col-2">
+                <label for="applicationCount">Application Count</label>
+              </div>
+              <div class="col-4">
+                <input type="text" class="form-control" id="applicationCount" name="iAppsAuth" value="@(Model == null ? "" : Model.iAppsAuth)" required>
+              </div>
+            </div>
+
+            <div class="row p-2">
+              <div class="col-2">
+                <label for="batchClients">Batch Clients</label>
+              </div>
+              <div class="col-4">
+                <input type="text" class="form-control" id="batchClients" name="iMobileAuth" value="@(Model == null ? "" : Model.iMobileAuth)" required>
+              </div>
+              <div class="col-2">
+                <label for="barcodeScanner">Barcode Scanner</label>
+              </div>
+              <div class="col-4">
+                <input type="text" class="form-control" id="barcodeScanner" name="iBCSCount" value="@(Model == null ? "" : Model.iBCSCount)" required>
+              </div>
+            </div>
+
+            <div class="row p-2">
+              <div class="col-2">
+                <label for="vocollectClients">Vocollect Clients</label>
+              </div>
+              <div class="col-4">
+                <input type="text" class="form-control" id="vocollectClients" name="iVoiceProd" value="@(Model == null ? "" : Model.iVoiceProd)" required>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--RECORD DETAILS-->
+        <div class="tab-pane fade" id="record-details" role="tabpanel">
+          <div class="container bg-white">
+            <div class="row p-2">
+              <div class="col-2">
+                <label for="salesman">Sales Person</label>
+              </div>
+              <div class="col-4">
+                <!--TO DO: ask Dmitry for real salesmen?-->
+                <select class="form-control" id="salesman" name="sSales">
+                  <option>Claire Lovell</option>
+                  <option>Rhia Cannon</option>
+                  <option>Glen May</option>
+                  <option>Ayse Fields</option>
+                  <option>Sohaib Hernandez</option>
+                </select>
+              </div>
+              <div class="col-2">
+                <label for="datepicker">Expiration Date</label>
+              </div>
+              <div class="col-4">
+                <input id="datepicker" class="form-control" name="dtSupportExp" value="@(Model == null ? "" : Model.dtSupportExp)" required>
+              </div>
+            </div>
+
+            <div class="row p-2">
+              <div class="col-2">
+                <label for="server-renewal-cost">Server Renewal Cost</label>
+              </div>
+              <div class="col-4">
+                <input type="text" class="form-control" id="server-renewal-cost" name="sServerCost" value="@(Model == null ? "" : Model.sServerCost)" required>
+              </div>
+              <div class="col-2">
+                <label for="server-count">Server Count</label>
+              </div>
+              <div class="col-4">
+                <input id="server-count" class="form-control" name="iServerAuth" value="@(Model == null ? "" : Model.iServerAuth)" required>
+              </div>
+            </div>
+
+            <div class="row p-2">
+              <div class="col-2">
+                <label for="system-id">System ID</label>
+              </div>
+              <div class="col-4">
+                <input type="text" class="form-control" id="system-id" name="sSysID" value="@(Model == null ? "" : Model.sSysID)" required>
+              </div>
+              <div class="col-2">
+                <label for="entry-date">Entry Date</label>
+              </div>
+              <div class="col-4">
+                <input type="text" class="form-control" id="entry-date" name="dtInstallDt" value="@(Model == null ? "" : Model.dtInstallDt)" required>
+              </div>
+            </div>
+
+            <div class="row p-2">
+              <div class="col-2">
+                <label for="install-count">Installation Count</label>
+              </div>
+              <div class="col-4">
+                <input type="text" class="form-control" id="install-count" name="sInstallCnt" value="@(Model == null ? "" : Model.sInstallCnt)" required>
+              </div>
+              <div class="col-2">
+                <label for="release-num">Release Number</label>
+              </div>
+              <div class="col-4">
+                <input type="text" class="form-control" id="release-num" name="fReleaseNo" value="@(Model == null ? "" : Model.fReleaseNo)" required>
+              </div>
+            </div>
+
+            <div class="row p-2">
+              <div class="col-2">
+                <label for="pwd">Trial Days</label>
+              </div>
+              <div class="col-4">
+                <input type="text" class="form-control" id="trial-days" name="iTrialTime" value="@(Model == null ? "" : Model.iTrialTime)" required>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <div class="row p-2">
+                ERP System:
+              </div>
+              <div class="row p-2">
+                <div class="col-3">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="JDEdwards" asp-for="@Model.bJDEEnabled" value="True">
+                    <label class="form-check-label" for="JDEdwards">
+                      JD Edwards
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="MicrosoftDynamic" asp-for="@Model.bMSEnabled" value="True">
+                    <label class="form-check-label" for="MicrosoftDynamic">
+                      Microsoft Dynamic
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="ScreenMapping" asp-for="@Model.bSMEnabled" value="True">
+                    <label class="form-check-label" for="ScreenMapping">
+                      Screen Mapping
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="CreditHold" asp-for="@Model.bCreditHold" value="True">
+                    <label class="form-check-label" for="CreditHold">
+                      Credit Hold
+                    </label>
+                  </div>
+                </div>
+
+                <div class="col-3">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="SAP" asp-for="@Model.bSAPEnabled" value="True">
+                    <label class="form-check-label" for="SAP">
+                      SAP
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="Oracle" asp-for="@Model.bOracleEnabled" value="True">
+                    <label class="form-check-label" for="Oracle">
+                      Oracle
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="Costpoint" asp-for="@Model.bCostpointEnabled" value="True">
+                    <label class="form-check-label" for="Costpoint">
+                      Costpoint
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="Backup" asp-for="@Model.bBackup" value="True">
+                    <label class="form-check-label" for="Backup">
+                      Backup
+                    </label>
+                  </div>
+                </div>
+
+                <div class="col-3">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="Test" asp-for="@Model.bTest" value="True">
+                    <label class="form-check-label" for="Test">
+                      Test
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="Lapse" asp-for="@Model.bLapse" value="True">
+                    <label class="form-check-label" for="Lapse">
+                      Lapse
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="SasS_Service" asp-for="@Model.bServiceEnabled" value="True">
+                    <label class="form-check-label" for="SasS_Service">
+                      SasS Service
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="Trial" asp-for="@Model.bTrialEnabled" value="True">
+                    <label class="form-check-label" for="Trial">
+                      Trial
+                    </label>
+                  </div>
+                </div>
+
+                <div class="col-3">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="SAPB1" asp-for="@Model.bSAPB1Enabled" value="True">
+                    <label class="form-check-label" for="SAPB1">
+                      SAPB1
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="Vocollect" asp-for="@Model.bVocollect" value="True">
+                    <label class="form-check-label" for="Vocollect">
+                      Vocollect
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="HCP" asp-for="@Model.bHCPEnabled" value="True">
+                    <label class="form-check-label" for="HCP">
+                      HCP
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="SCM" asp-for="@Model.bSCMEnabled" value="True">
+                    <label class="form-check-label" for="SCM">
+                      SCM
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="form-group p-2">
+              <label for="server-notes">Server Notes:</label>
+              <textarea class="form-control" rows="5" id="server-notes" name="sServerNotes" value="@(Model == null ? "" : Model.sServerNotes)" required></textarea>
+            </div>
+          </div>
+        </div>
+        <!--SAAS DETAILS-->
+        <div class="tab-pane fade" id="saas-details" role="tabpanel">
+          <div class="container bg-white">
+            <div class="row p-2">
+              <div class="col-6">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="saasToggle" name="bServiceEnabled" value="True" required>
+                  <label class="form-check-label" for="saasToggle">
+                    Record is SaaS
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="row p-2">
+              <div class="col-2">
+                <label for="duration">Duration</label>
+              </div>
+              <div class="col-4">
+                <input type="text" class="saas-form form-control" id="duration" name="duration" value="" disabled>
+              </div>
+              <div class="col-2">
+                <label for="users-allowed">Users Allowed</label>
+              </div>
+              <div class="col-4">
+                <input type="text" class="saas-form form-control" id="users-allowed" name="iUsersAllowed" value="@(Model == null ? "" : Model.iUsersAllowed)" required disabled>
+              </div>
+            </div>
+
+            <div class="row p-2">
+              <div class="col-2">
+                <label for="server-expiry">Server Expiry</label>
+              </div>
+              <div class="col-4">
+                <input type="text" class="saas-form form-control" id="server-expiry" name="dtSupportExp" value="@(Model == null ? "" : Model.dtSupportExp)" disabled>
+              </div>
+              <div class="col-2">
+                <label for="contract-start">Contract Start</label>
+              </div>
+              <div class="col-4">
+                <input type="text" class="saas-form form-control" id="contract-start" name="dtContractSt" value="@(Model == null ? "" : Model.dtContractSt)" disabled>
+              </div>
+            </div>
+
+            <div class="row p-2">
+              <div class="col-2">
+                <label for="contract-end">Contract End</label>
+              </div>
+              <div class="col-4">
+                <input type="text" class="saas-form form-control" id="contract-end" name="dtContractEd" value="@(Model == null ? "" : Model.dtContractEd)" disabled>
+              </div>
+              <div class="col-2">
+                <label for="min-user-count">Minimum User Count</label>
+              </div>
+              <div class="col-4">
+                <input type="text" class="saas-form form-control" id="min-user-count" name="iMinUsers" value="@(Model == null ? "" : Model.iMinUsers)" disabled>
+              </div>
+            </div>
+
+            <div class="row p-2">
+              <div class="col-2">
+                <label for="heartbeat-date">HeartBeat Date</label>
+              </div>
+              <div class="col-4">
+                <input type="text" class="saas-form form-control" id="heartbeat-date" name="dtHeartbeat" value="@(Model == null ? "" : Model.dtHeartbeat)" disabled>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--SAVE/DELETE BUTTONS-->
+      <div class="row p-3">
+        <div class="col-6">
+          <div class="d-grid gap-2">
+            <input type="submit" value="Create Record" class="btn btn-outline-primary">
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="d-grid gap-2">
+            <button type="button" class="btn btn-outline-danger">Abort</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script src="~/js/details.js" type="text/javascript"></script>
+@section Scripts {
+  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
